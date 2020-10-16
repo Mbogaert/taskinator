@@ -200,9 +200,17 @@ var dragTaskHandler = function(event) {
     console.log("getId:", getId, typeof getId);
 }
 
+var dropZoneDragHandler = function(event)  {
+    // drop zone for tasks
+    var taskListEl = event.target.closest(".task-list");
+    if (taskListEl) {
+        event.preventDefault();
+    }
+};
 
 // event listeners (mostly all)
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 // use the pageContentEl DOM element to reference the main element and delegate dragstart listener to it
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
+pageContentEl.addEventListener("dragover", dropZoneDragHandler)

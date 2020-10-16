@@ -24,6 +24,9 @@ var completeEditTask = function (taskName, taskType, taskId) {
         }
     };
 
+    //add to local storage
+    saveTasks();
+
     alert("Task Updated!");
 
     //resets the form to normal
@@ -99,6 +102,9 @@ var createTaskEl = function (taskDataObj) {
 
     tasks.push(taskDataObj);
 
+    //add to local storage
+    saveTasks();
+
     //increase task counter for next unique id
     taskIdCounter++;
 }
@@ -145,8 +151,6 @@ var createTaskActions = function (taskId) {
     return actionContainerEl;
 }
 
-formEl.addEventListener("submit", taskFormHandler);
-
 var taskButtonHandler = function (event) {
     // get target element from event
     var targetEl = event.target;
@@ -186,6 +190,9 @@ var deleteTask = function (taskId) {
 
     //reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr;
+
+    //add to local storage
+    saveTasks();
 };
 
 var editTask = function (taskId) {
@@ -228,6 +235,8 @@ var taskStatusChangeHandler = function (event) {
             tasks[i].status = statusValue;
         }
     }
+    //add to local storage
+    saveTasks();
 };
 
 var dragTaskHandler = function (event) {
@@ -272,6 +281,8 @@ var dropTaskHandler = function (event) {
             tasks[i].status = statusSelectEl.value.toLowerCase();
         }
     }
+    //add to local storage
+    saveTasks();
 };
 
 var dragLeaveHandler = function (event) {
@@ -281,7 +292,11 @@ var dragLeaveHandler = function (event) {
     }
 }
 
-// event listeners (mostly all)
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks)); // stringify converts the tasks array into a string for saving in localStorage
+
+// event listeners 
+formEl.addEventListener("submit", taskFormHandler);
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 // use the pageContentEl DOM element to reference the main element and delegate dragstart listener to it
